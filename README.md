@@ -1,53 +1,56 @@
-# Ross AI Portfolio
-# Analytics & Data-Quality Mini-Portfolio
+# 🚀 DevSecOps App Template
 
-**Author**: Ross Stafford • PMP® | Data & Product PM  
-**Live repo**: <https://github.com/RStaff/https-github.com-rossstafford-ross-ai-portfolio>
+[![CI / CD](https://github.com/RStaff/app-template/actions/workflows/ci.yml/badge.svg)](https://github.com/RStaff/app-template/actions/workflows/ci.yml)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
-![CI](https://img.shields.io/github/actions/workflow/status/RStaff/https-github.com-rossstafford-ross-ai-portfolio/ci.yml?label=CI%2FCD)
+A one-click starter repo for **Python + Docker** micro-services with a *full* GitHub-Actions–powered DevSecOps pipeline:
+
+| Stage | What happens automatically |
+|-------|----------------------------|
+| **Build** | Docker image built with Buildx layer cache |
+| **Unit test** | `pytest` (or skip if no tests yet) |
+| **Static scan** | Bandit (Python security linter) |
+| **Dependency scan** | Trivy CVE scan on the container |
+| **Push** | Image tagged `ghcr.io/<owner>/<repo>:<sha>` and pushed to GHCR |
+| **Deploy (optional)** | Pulls image on a self-host VPS / Render / Fly.io (edit `ci.yml`) |
+| **Alerts** | Slack webhook on failure (add `SLACK_WEBHOOK_URL` secret) |
+
+Once you mark this repo as a **template**, every new project you spin up inherits the pipeline, Dockerfile, and folder layout—no copy-paste required.
 
 ---
 
-## 📈 Project 1 — GA4 Foot-Traffic Forecast MVP
+## 📂 Folder structure
 
-| Step | Tech | Outcome |
-|------|------|---------|
-| ETL  | **Python / pandas** | Join synthetic GA4 geofence events with POS sales |
-| Model| **scikit-learn RandomForest** | ↓ MAE 8 % vs. naïve baseline |
-| Viz  | **Looker Studio** | Dual-axis chart for planners (sales vs. visits) |
+.github/
+workflows/ci.yml ← CI/CD pipeline
+app/
+init.py ← add your package code here
+main.py ← simple “Hello DevSecOps”
+Dockerfile ← production container
+requirements.txt ← runtime deps (Flask 3.0.2)
+README.md ← you’re here
 
-![Looker screenshot](ga4_dashboard/chart.png)
 
-### Reproduce locally
+---
+
+## ⚡ Quick start
+
+### 1. Generate a new service
 
 ```bash
-cd ga4_dashboard
-python3 foot_traffic.ipynb  # or open in JupyterLab
-open chart.png              # exported Looker chart
+gh repo create my-api --template RStaff/app-template --public
+git clone https://github.com/RStaff/my-api.git
+cd my-api
 
-**🛡️ Project 2 — Airflow Data-Quality Guard Rails**
-Check	Logic	Alert
-Row count	Fail if < 700 rows	Airflow task → red
-Null ratio	Fail if any visits NULLs	Upstream-failed
+Run locally :
+python -m venv .venv && source .venv/bin/activate
+pip install -r requirements.txt
+python app/main.py          # prints “Hello DevSecOps”
 
-🏗️ Architecture
-          GA4 events           POS csv
-                │                 │
-                └───► pandas — RandomForest —► predictions.csv
-                                         │
-  Looker Studio dashboard ◄──────────────┘
-                                         ▼
-           Airflow (row & null checks) — SQLite
+ Push code and watch the pipeline:
+git commit --allow-empty -m "chore: trigger CI"
+git push -u origin main
 
-
-🔍 Tech Stack
-Python 3.11, pandas, scikit-learn
-
-Docker Compose (Airflow 2.9, Postgres, Redis)
-
-Looker Studio • SQLite • GitHub Actions (CI / Trivy / Bandit)
-
-📝 License
-MIT — free to fork & remix. Attribution appreciated!
+🐳 Build the image locally
+docker build -t my-api:dev .
+docker run --rm my-api:dev
 
