@@ -1,0 +1,9 @@
+version: 2
+updates:
+  - package-ecosystem: "pip"
+    directory: "/"              # Location of requirements.txt
+    schedule:
+      interval: "weekly"
+    rebase-strategy: "auto"
+    open-pull-requests-limit: 5
+    automerge: true             # merge when CI is green
