@@ -2,32 +2,33 @@
 
 [![CI / CD](https://github.com/RStaff/app-template/actions/workflows/ci.yml/badge.svg)](https://github.com/RStaff/app-template/actions/workflows/ci.yml)
 
-A one-click starter repo for **Python + Docker** micro-services with a *full* GitHub-Actions–powered DevSecOps pipeline:
+A one-click starter repo for **Python + Docker** micro-services with a *full* GitHub-Actions DevSecOps pipeline:
 
-| Stage | What happens automatically |
-|-------|----------------------------|
-| **Build** | Docker image built with Buildx layer cache |
-| **Unit test** | `pytest` (or skip if no tests yet) |
-| **Static scan** | Bandit (Python security linter) |
-| **Dependency scan** | Trivy CVE scan on the container |
-| **Push** | Image tagged `ghcr.io/<owner>/<repo>:<sha>` and pushed to GHCR |
-| **Deploy (optional)** | Pulls image on a self-host VPS / Render / Fly.io (edit `ci.yml`) |
-| **Alerts** | Slack webhook on failure (add `SLACK_WEBHOOK_URL` secret) |
+| Stage            | What happens automatically                                   |
+|------------------|--------------------------------------------------------------|
+| **Build**        | Docker image built with Buildx layer cache                   |
+| **Unit test**    | `pytest` (or skipped if no tests yet)                        |
+| **Static scan**  | Bandit (Python security linter)                              |
+| **Dependency scan** | Trivy CVE scan on the container                           |
+| **Push**         | Image tagged `ghcr.io/<owner>/<repo>:<sha>` and pushed to GHCR |
+| **Deploy (optional)** | Pulls image on VPS / Render / Fly.io (edit `ci.yml`)    |
+| **Alerts**       | Slack webhook on failure (add `SLACK_WEBHOOK_URL` secret)    |
 
-Once you mark this repo as a **template**, every new project you spin up inherits the pipeline, Dockerfile, and folder layout—no copy-paste required.
+Mark this repo as a **template** and every new project inherits the pipeline, Dockerfile, and folder layout—no copy-paste required.
 
 ---
 
 ## 📂 Folder structure
 
+```text
 .github/
-workflows/ci.yml ← CI/CD pipeline
+  workflows/ci.yml      ← CI/CD pipeline
 app/
-init.py ← add your package code here
-main.py ← simple “Hello DevSecOps”
-Dockerfile ← production container
-requirements.txt ← runtime deps (Flask 3.0.2)
-README.md ← you’re here
+  __init__.py           ← your package code
+  main.py               ← simple “Hello DevSecOps”
+Dockerfile              ← production container
+requirements.txt        ← runtime deps (Flask 3.0.2)
+README.md               ← you’re here
 
 
 ---
